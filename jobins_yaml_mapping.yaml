@@ -1,0 +1,258 @@
+mapping_spec:
+  field_mapping:
+  - source_field: 名前
+    target_column: 求人名
+    transform: そのまま
+  - source_field: 企業名
+    target_column: 採用企業名
+    transform: そのまま
+  - source_field: 雇用形態
+    target_column: 雇用形態
+    transform: そのまま
+  - source_field: null
+    target_column: 契約期間
+    transform: そのまま
+  - source_field: null
+    target_column: 応募区分
+    transform: 固定："中途"
+  - source_field: null
+    target_column: 職種（大分類）
+    transform: '職種分類（中分類）の内容から紐づく項目を分類元のテーブルから持ってくる。
+
+      分類元のテーブルは、JOBINS用書式内のシート「職種分類」のA列とB列。職種分類（中分類）がB列で、職種(大分類)がA列。'
+  - source_field: 名前
+    target_column: 職種分類（中分類）
+    transform: '名前（求人タイトル）の文章をもとに、GPTに「職種分類」の分類元のテーブルから最も近い内容を選択して入力する。
+
+      分類元のテーブルは、JOBINS用書式内のシート「職種分類」のA列とB列。職種分類（中分類）がB列で、職種(大分類)がA列。'
+  - source_field: null
+    target_column: 必要な経験年数（職種）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 必要な経験年数（業種）
+    transform: 固定：空白
+  - source_field: 応募資格
+    target_column: 応募条件
+    transform: そのまま
+  - source_field: null
+    target_column: 歓迎条件
+    transform: 固定：空白
+  - source_field: 業務内容
+    target_column: 仕事内容
+    transform: そのまま
+  - source_field: null
+    target_column: 仕事内容（変更の範囲）
+    transform: 固定：空白
+  - source_field: 募集背景
+    target_column: 募集背景
+    transform: そのまま
+  - source_field: 募集背景
+    target_column: 採用予定人数
+    transform: 募集背景の文章をもとに、採用人数に関する表記のみを抜粋して入力する。該当する表記がない場合、「若干名」と入力する。
+  - source_field: 都道府県
+    target_column: 勤務地（県）
+    transform: 都道府県正規化
+  - source_field: 勤務地
+    target_column: 勤務地詳細
+    transform: そのまま
+  - source_field: null
+    target_column: 勤務地（変更の範囲）
+    transform: 固定：空白
+  - source_field: 勤務時間
+    target_column: 勤務時間
+    transform: そのまま
+  - source_field: null
+    target_column: 働き方（選択式）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 月平均残業時間（選択式）
+    transform: 固定："指定しない"
+  - source_field: null
+    target_column: 月平均残業時間詳細
+    transform: 固定：空白
+  - source_field: 休日休暇
+    target_column: 休日（選択式）
+    transform: 休日休暇の文章をもとに、GPTが転勤の有無を判定して「土日休み」または「シフト制」または「その他」とだけ入力する。
+  - source_field: 休日休暇
+    target_column: 休日詳細
+    transform: そのまま
+  - source_field: 待遇・福利厚生
+    target_column: 転勤の可能性（選択式）
+    transform: 待遇・福利厚生の文章をもとに、GPTが転勤の有無を判定して「あり」または「なし」とだけ入力する。
+  - source_field: 試用期間
+    target_column: 試用期間のありなし（選択式）
+    transform: 試用期間の文章をもとに、GPTが試用期間の有無を判定して「あり」または「なし」とだけ入力する。
+  - source_field: 試用期間
+    target_column: 試用期間（詳細）
+    transform: 試用期間の有無が「あり」の場合のみ、試用期間の内容をそのまま入力する。
+  - source_field: 選考プロセス
+    target_column: 選考フロー
+    transform: そのまま
+  - source_field: null
+    target_column: 受動喫煙対策について（選択式）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 受動喫煙対策詳細
+    transform: 固定：空白
+  - source_field: null
+    target_column: その他
+    transform: 固定：空白
+  - source_field: 年収上限 [万円]
+    target_column: 年収下限
+    transform: そのまま
+  - source_field: 年収下限 [万円]
+    target_column: 年収上限
+    transform: そのまま
+  - source_field: null
+    target_column: 月給下限
+    transform: 固定：空白
+  - source_field: null
+    target_column: 月給上限
+    transform: 固定：空白
+  - source_field: 給与(詳細)
+    target_column: 給与詳細
+    transform: そのまま
+  - source_field: null
+    target_column: 福利厚生（選択式）
+    transform: そのまま
+  - source_field: 待遇・福利厚生
+    target_column: 福利厚生詳細
+    transform: そのまま
+  - source_field: null
+    target_column: 諸手当
+    transform: 固定：空白
+  - source_field: 待遇・福利厚生
+    target_column: 賞与のありなし
+    transform: 待遇・福利厚生の文章をもとに、GPTが賞与の有無を判定して「あり」または「なし」とだけ入力する。
+  - source_field: 給与(詳細)
+    target_column: 賞与詳細
+    transform: 待遇・福利厚生の文章をもとに、GPTが賞与の有無を判定して「あり」と判定した場合のみ、賞与の内容を抜粋して入力する。「なし」の場合は空白とする。
+  - source_field: null
+    target_column: インセンティブのありなし（選択式）
+    transform: 固定：空白
+  - source_field: null
+    target_column: ストックオプションのありなし（選択式）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 本社：郵便場号
+    transform: 固定：空白
+  - source_field: null
+    target_column: 本社：都道府県
+    transform: 固定：空白
+  - source_field: null
+    target_column: 本社：住所詳細
+    transform: 固定：空白
+  - source_field: null
+    target_column: 業種分類（大分類）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 業種分類（中分類）
+    transform: 固定：空白
+  - source_field: 企業名.株式公開
+    target_column: 株式公開
+    transform: そのまま
+  - source_field: null
+    target_column: 売上高
+    transform: 固定：空白
+  - source_field: 資本金
+    target_column: 資本金
+    transform: そのまま
+  - source_field: 企業情報.従業員数
+    target_column: 従業員数
+    transform: そのまま
+  - source_field: null
+    target_column: 設立年月
+    transform: 固定：空白
+  - source_field: null
+    target_column: 社内担当
+    transform: 固定："大島"
+  - source_field: 企業名：会社概要
+    target_column: 会社概要
+    transform: そのまま
+  - source_field: 紹介料
+    target_column: 紹介手数料（全額）
+    transform: そのまま
+  - source_field: null
+    target_column: 紹介手数料（分配額）
+    transform: 固定："20%"
+  - source_field: 年齢上限
+    target_column: 応募可能年齢下限
+    transform: 年齢上限の記載がある場合はそのまま入力。記載がない場合は固定値：35と入力。
+  - source_field: 年齢下限
+    target_column: 応募可能年齢上限
+    transform: 年齢下限の記載がある場合はそのまま入力。記載がない場合は固定値：25と入力。
+  - source_field: null
+    target_column: 経験社数
+    transform: 固定：空白
+  - source_field: null
+    target_column: 応募可能性別
+    transform: 固定："不問"
+  - source_field: null
+    target_column: 国籍
+    transform: 固定："日本国籍の方を想定"
+  - source_field: null
+    target_column: 面接確約条件のありなし（選択式）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 面接確約条件詳細
+    transform: 固定：空白
+  - source_field: null
+    target_column: 言語を活かせる（選択式）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 学歴（選択式）
+    transform: 固定："高専/短大/専門卒以上"
+  - source_field: null
+    target_column: 学歴詳細
+    transform: 固定：空白
+  - source_field: null
+    target_column: 媒体掲載可否（選択式）
+    transform: 固定："NG"
+  - source_field: null
+    target_column: スカウト送信可否（選択式）
+    transform: 固定："NG"
+  - source_field: null
+    target_column: 募集・採用情報（選択式）
+    transform: 固定：空白
+  - source_field: null
+    target_column: 推薦時の留意事項
+    transform: 固定：20代は3社以下、30代は4社以下
+  - source_field: null
+    target_column: 内定の可能性が高い人
+    transform: 固定：空白
+  - source_field: null
+    target_column: NG対象
+    transform: 固定：空白
+  - source_field: null
+    target_column: 選考詳細情報
+    transform: 固定：空白
+  - source_field: 企業名：返金規定
+    target_column: 返金規定
+    transform: そのまま
+  - source_field: ジョビンズ支払期日
+    target_column: 支払い期日
+    transform: そのまま
+  - source_field: null
+    target_column: エージェント情報：その他
+    transform: 固定：空白
+  - source_field: null
+    target_column: 社内メモ
+    transform: 固定：空白
+processing_rules:
+  filter:
+    include_if:
+      JOBINS掲載企業フラグ: 1
+    exclude_if:
+      試用期間: '"" or null'
+  sheet_name: 練習用にご利用ください
+  output_sheet_copy_prefix: JOBINS掲載用
+  output_filename_pattern: JOBINS掲載用_{datetime}.csv
+job_flow:
+  task_name: 求人マスタ --> Jobins CSV 変換
+  steps:
+  - 求人マスタ CSV の読み込み
+  - filter 条件に従って対象行絞り込み
+  - mapping_spec に従い列を作成
+  - transform を適用（固定値、GPT分類、テーブル参照など）
+  - 貼り付け書式テンプレートのシートをコピー
+  - データを書き込み、指定ファイル名で保存
