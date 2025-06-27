@@ -608,10 +608,12 @@ class SimpleJobinsConverter:
                 self.job_classification_cache[cache_key] = pre_filtered_result
                 return pre_filtered_result
             
-            # AH列の値を取得して動的フィルタリング
-            ah_value = source_row.get("AH列の値", "") if hasattr(source_row, 'get') else ""
-            if not ah_value and hasattr(source_row, 'iloc') and len(source_row) > 33:  # AH列は34番目（0ベース）
-                ah_value = str(source_row.iloc[33]).strip() if pd.notna(source_row.iloc[33]) else ""
+            # AH列（職種）の値を取得して動的フィルタリング
+            ah_value = ""
+            if row and headers and "職種" in headers:
+                field_index = headers.index("職種")
+                if field_index < len(row):
+                    ah_value = row[field_index].strip() if row[field_index] else ""
             
             # AH列の値に基づいて選択肢をフィルタリング
             if ah_value:

@@ -342,10 +342,13 @@ class JobinsCSVConverter:
             return result
         
         try:
-            # AH列の値を取得して動的フィルタリング
-            ah_value = source_row.get("AH列の値", "") if hasattr(source_row, 'get') else ""
-            if not ah_value and hasattr(source_row, 'iloc') and len(source_row) > 33:  # AH列は34番目（0ベース）
-                ah_value = str(source_row.iloc[33]).strip() if pd.notna(source_row.iloc[33]) else ""
+            # AH列（職種）の値を取得して動的フィルタリング
+            ah_value = ""
+            if source_row is not None:
+                ah_value = source_row.get("職種", "") if hasattr(source_row, 'get') else ""
+                if not ah_value and hasattr(source_row, 'iloc'):
+                    # フォールバック: 職種列が見つからない場合
+                    ah_value = ""
             
             # AH列の値に基づいて選択肢をフィルタリング
             if ah_value:
@@ -419,7 +422,9 @@ class JobinsCSVConverter:
             
         except Exception as e:
             # API呼び出し失敗時のフォールバック
+            import traceback
             logger.error(f"OpenAI API呼び出しエラー: {e}")
+            logger.error(f"スタックトレース: {traceback.format_exc()}")
             result = "その他営業関連職"
             self.job_classification_cache[cache_key] = result
             return result
